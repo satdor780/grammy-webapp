@@ -5,7 +5,7 @@ import usdtIcon from '/icons/usdt.svg'
 import minusIcon from '/icons/minus.svg'
 import plusIcon from '/icons/plus.svg'
 
-export const Product = () => {
+export const Product = ({img}: {img: string}) => {
     const [isSelecting, setIsSelecting] = useState(false)
     const [count, setCount] = useState(1)
 
@@ -27,7 +27,7 @@ export const Product = () => {
     return (
         <div className={styles.product}>
             <div className={styles.product__image}>
-                <img src='/images/mercury.jpg' />
+                <img src={img} />
                 <div className={styles.product__tags}>
                     <div className={styles.product__tag}>Популярное</div>
                     <div className={styles.product__tag}>скидка</div>
