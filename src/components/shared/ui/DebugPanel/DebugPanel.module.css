@@ -1,0 +1,21 @@
+.wrapper {
+  margin: 12px;
+  padding: 10px;
+  background: #0f172a;
+  color: #e5e7eb;
+  border-radius: 8px;
+  font-size: 12px;
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.header {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #38bdf8;
+}
+
+.content {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

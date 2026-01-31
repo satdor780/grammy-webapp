@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react'
 import { Products } from './components'
 import usdtIcon from '/icons/usdt.svg'
 import styles from './Home.module.css'
-import { Button } from '../../shared/ui'
+import { Button, DebugPanel } from '../../shared/ui'
 import { init } from '../../../api'
 import type { InitResponse } from '../../../api/api'
 
 export const Home = () => {
   const [data, setData] = useState<InitResponse | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     init()
@@ -18,6 +19,9 @@ export const Home = () => {
       })
       .catch(err => {
         console.error('Init error:', err)
+        setError(
+          err instanceof Error ? err.message : JSON.stringify(err)
+        )
       })
       .finally(() => {
         setLoading(false)
@@ -28,8 +32,20 @@ export const Home = () => {
     return <h1>load</h1>
   }
 
+  if (error) {
+    return (
+      <DebugPanel title="INIT ERROR">
+        {error}
+      </DebugPanel>
+    )
+  }
+
   if (!data) {
-    return <div className="container">Failed to load data</div>
+    return (
+      <DebugPanel title="NO DATA">
+        data is null
+      </DebugPanel>
+    )
   }
 
   return (
@@ -50,7 +66,9 @@ export const Home = () => {
         <Products />
       </div>
 
-      <p>{JSON.stringify(data)}</p>
+      <DebugPanel title="INIT RESPONSE">
+        {JSON.stringify(data, null, 2)}
+      </DebugPanel>
 
       <div className={styles.button}>
         <Button>Buy Now 15$</Button>
