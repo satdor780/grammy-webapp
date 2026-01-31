@@ -6,9 +6,14 @@ function App() {
   useEffect(() => {
     tg.ready()
   }, [])
+
+
   
   return (
+    <>
+    {tg.initData}
     <Home />
+    </>
   )
 }
 
