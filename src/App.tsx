@@ -7,11 +7,18 @@ function App() {
     tg.ready()
   }, [])
 
+  const tgs = window.Telegram?.WebApp ?? {
+    initData: '',
+    ready: () => {},
+    close: () => {},
+    expand: () => {}
+  }
 
+  const initData = tgs.initData
   
   return (
     <>
-    {tg.initData}
+    initdata: {initData}, initDatafrom: {tg.initData}
     <Home />
     </>
   )
