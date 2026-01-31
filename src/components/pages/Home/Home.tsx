@@ -5,16 +5,10 @@ import usdtIcon from '/icons/usdt.svg'
 import styles from './Home.module.css'
 import { Button } from '../../shared/ui'
 import { init } from '../../../api'
-
-interface InitData {
-  user: {
-    balance: number
-  }
-  products: any[]
-}
+import type { InitResponse } from '../../../api/api'
 
 export const Home = () => {
-  const [data, setData] = useState<InitData | null>(null)
+  const [data, setData] = useState<InitResponse | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -53,8 +47,10 @@ export const Home = () => {
       </div>
 
       <div className={styles.content}>
-        <Products products={data.products} />
+        <Products />
       </div>
+
+      <p>{JSON.stringify(data)}</p>
 
       <div className={styles.button}>
         <Button>Buy Now 15$</Button>
