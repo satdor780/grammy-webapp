@@ -8,13 +8,21 @@ export async function init(): Promise<InitResponse> {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      initData: initData 
+      initData: initData
     })
   })
 
+  // Всегда читаем JSON
+  const json = await res.json().catch(() => null)
+
+  // Если статус ошибки
   if (!res.ok) {
-    throw new Error('Init failed')
+    const msg =
+      json && typeof json.error === 'string'
+        ? json.error
+        : 'Init failed'
+    throw new Error(msg)
   }
 
-  return res.json()
+  return json
 }
