@@ -16,6 +16,7 @@ export const Home = () => {
   
   const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
   const theme = window.Telegram?.WebApp?.themeParams;
+  const initData = window.Telegram?.WebApp?.initData;
 
   useEffect(() => {
     init(user)
@@ -40,7 +41,7 @@ export const Home = () => {
   if (error) {
     return (
       <DebugPanel title="INIT ERROR">
-        {error}
+        {JSON.stringify(initData)}
       </DebugPanel>
     )
   }
