@@ -12,9 +12,9 @@ function App() {
   const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
   const theme = window.Telegram?.WebApp?.themeParams;
 
-  return (
+  return (  
     <>
-    initdata: {user}{theme}, initDatafrom: {tg.initData}
+    initdata: {JSON.stringify(user, theme)}, initDatafrom: {tg.initData}
     <Home />
     </>
   )
