@@ -7,18 +7,14 @@ function App() {
     tg.ready()
   }, [])
 
-  const tgs = window.Telegram?.WebApp ?? {
-    initData: '',
-    ready: () => {},
-    close: () => {},
-    expand: () => {}
-  }
-
-  const initData = tgs.initData
+  window.Telegram?.WebApp?.ready();
   
+  const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
+  const theme = window.Telegram?.WebApp?.themeParams;
+
   return (
     <>
-    initdata: {initData}, initDatafrom: {tg.initData}
+    initdata: {user}{theme}, initDatafrom: {tg.initData}
     <Home />
     </>
   )
