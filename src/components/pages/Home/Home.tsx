@@ -41,7 +41,7 @@ export const Home = () => {
   if (error) {
     return (
       <DebugPanel title="INIT ERROR">
-        {JSON.stringify(initData)}
+        {error}
       </DebugPanel>
     )
   }
