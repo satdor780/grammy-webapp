@@ -19,7 +19,7 @@ export const Home = () => {
   const initData = window.Telegram?.WebApp?.initData;
 
   useEffect(() => {
-    init(user)
+    init(initData)
       .then(res => {
         setData(res)
       })
