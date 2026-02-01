@@ -11,9 +11,14 @@ export const Home = () => {
   const [data, setData] = useState<InitResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  
+  window.Telegram?.WebApp?.ready();
+  
+  const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
+  const theme = window.Telegram?.WebApp?.themeParams;
 
   useEffect(() => {
-    init()
+    init(user)
       .then(res => {
         setData(res)
       })

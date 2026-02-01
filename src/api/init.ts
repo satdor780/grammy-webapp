@@ -1,7 +1,7 @@
-import { initData } from "../lib"
+
 import type { InitResponse } from "./api"
 
-export async function init(): Promise<InitResponse> {
+export async function init(initData): Promise<InitResponse> {
   const res = await fetch('http://localhost:3000/api/init', {
     method: 'POST',
     headers: {
