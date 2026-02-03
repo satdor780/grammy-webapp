@@ -5,7 +5,7 @@ import usdtIcon from '/icons/usdt.svg'
 import styles from './Home.module.css'
 import { Button, DebugPanel } from '../../shared/ui'
 import { init } from '../../../api'
-import type { InitResponse } from '../../../api/api'
+import type { InitResponse } from '../../../api/types'
 
 export const Home = () => {
   const [data, setData] = useState<InitResponse | null>(null)

@@ -1,7 +1,8 @@
 
-import type { InitResponse } from "./api"
+import type { InitResponse } from "./types"
 
-export async function init(initData): Promise<InitResponse> {
+
+export async function init(initData: string): Promise<InitResponse> {
   const res = await fetch('http://localhost:3000/api/init', {
     method: 'POST',
     headers: {
@@ -12,10 +13,8 @@ export async function init(initData): Promise<InitResponse> {
     })
   })
 
-  // Всегда читаем JSON
   const json = await res.json().catch(() => null)
 
-  // Если статус ошибки
   if (!res.ok) {
     const msg =
       json && typeof json.error === 'string'
