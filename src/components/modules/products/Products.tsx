@@ -5,11 +5,12 @@ import { ProductCard } from "./components";
 import { Skeleton } from "../../shadcn/ui/skeleton";
 import { Alert, AlertDescription } from "../../shadcn/ui/alert";
 import { Button } from "../../shadcn/ui/button";
-
+import usdtIcon from "/icons/usdt.svg";
 
 
 export const Products = () => {
   const initData = useTelegramStore((state) => state.initData);
+  const user = useTelegramStore(state => state.user)
 
   const {
     mutate,
@@ -41,7 +42,27 @@ export const Products = () => {
   };
 
   return (
-    <div className="flex flex-col items-center px-4 py-5 gap-4">
+    <div className="flex flex-col items-center px-4 py-5 gap-4 pb-10">
+      <div className="flex items-center justify-between w-full">
+        <h1 className="gothic-font text-xl uppercase">
+          Mailzy
+        </h1>
+
+        <div className="flex items-center gap-3">
+          <span className="font-semibold text-sm text-white leading-none">
+            Balance:
+          </span>
+          
+          <div className="flex items-center gap-1 text-sm text-white leading-none">
+            <img 
+              src={usdtIcon} 
+              alt="USDT" 
+              className="w-[18px] h-[18px]" 
+            />
+            <b>{'user?.balance'}$</b>
+          </div>
+        </div>
+      </div>
       {isPending && (
         <div className="w-full max-w-[450px] space-y-3">
           <Skeleton className="h-[260px] w-full rounded-xl" />

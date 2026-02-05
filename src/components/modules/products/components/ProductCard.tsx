@@ -11,11 +11,15 @@ import plusIcon from "/icons/plus.svg";
 import { Button } from "../../../shadcn/ui/button"
 import { useBasketStore } from "../../../../store";
 
+// const VITE_SERVER_URI = import.meta.env.VITE_SERVER_URI
+const VITE_SERVER_URI = 'http://localhost:3000'
+
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const [isSelecting, setIsSelecting] = useState(false);
 
   const handleBuyClick = () => {
     setIsSelecting(true);
+    handleIncrement()
   };
 
   const handleCancel = () => {
@@ -46,7 +50,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
     <div className="w-full max-w-[400px] overflow-hidden rounded-2xl bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] flex flex-col">
       <div className="relative h-[260px] w-full bg-neutral-100">
         <img
-          src={product.image}
+          src={`${VITE_SERVER_URI}/${product.image}`}
           alt={product.title}
           className="h-full w-full object-cover"
         />

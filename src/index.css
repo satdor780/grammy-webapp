@@ -123,3 +123,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.gothic-font {
+  font-family: "Special Gothic Expanded One", sans-serif;
+}
