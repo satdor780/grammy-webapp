@@ -10,7 +10,7 @@ import usdtIcon from "/icons/usdt.svg";
 
 export const Products = () => {
   const initData = useTelegramStore((state) => state.initData);
-  const user = useTelegramStore(state => state.user)
+  // const user = useTelegramStore(state => state.user)
 
   const {
     mutate,
