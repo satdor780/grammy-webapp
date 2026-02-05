@@ -1,20 +1,32 @@
-import { useEffect } from 'react'
-import { Home } from './components/pages'
-import { tg } from './lib'
+import { useEffect } from "react";
+import { Products } from "./components/modules";
+import { DebugPanel } from "./components/widgets";
+import { useInit } from "./hooks/useInit";
+import { useDebugStore } from "./store/debugStore";
+import { useTelegramStore } from "./store/telegramStore";
 
 function App() {
+  const initData = useTelegramStore((s) => s.initData);
+  const addResponse = useDebugStore((s) => s.addResponse);
+  const addError = useDebugStore((s) => s.addError);
+
+  const { mutate: sendInit } = useInit({
+    onSuccess: (data) => addResponse("Init success", data, "init"),
+    onError: (err) => addError(err.message, err, "init"),
+  });
+
   useEffect(() => {
-    tg.ready()
-  }, [])
+    if (initData) {
+      sendInit(initData);
+    }
+  }, [initData, sendInit]);
 
-  
-
-  return (  
+  return (
     <>
-    {/* initdata: {JSON.stringify(user, theme)}, initDatafrom: {tg.initData} */}
-    <Home />
+      <Products />
+      <DebugPanel />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
