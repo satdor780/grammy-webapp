@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { CreateProduct } from "./components/modules";
+import { Products } from "./components/modules";
 import { DebugPanel } from "./components/widgets";
 import { useInit } from "./hooks/useInit";
 import { useDebugStore } from "./store/debugStore";
@@ -23,7 +23,7 @@ function App() {
 
   return (
     <>
-      <CreateProduct />
+      <Products />
       <DebugPanel />
     </>
   );
