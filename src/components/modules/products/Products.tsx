@@ -96,7 +96,7 @@ export const Products = () => {
       {!isPending &&
         !isError && (
         <div className="fixed w-full px-5 py-0 bottom-10 left-0 right-0">
-          <Button className="w-full bg-black h-[40px] text-white" onClick={handleClose}>
+          <Button className="w-full bg-white h-[40px] text-black" onClick={handleClose}>
             {!hasItems ? 'Закрыть' : (
                 `Buy Now ${totalPrice.toFixed(2)}$`
             )}

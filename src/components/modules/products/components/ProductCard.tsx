@@ -50,11 +50,11 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
     <div className="w-full max-w-[400px] overflow-hidden rounded-2xl bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] flex flex-col">
       <div className="relative h-[260px] w-full bg-neutral-100">
         <img
-          src={`${VITE_SERVER_URI}/${product.image}`}
+          src={`${VITE_SERVER_URI}${product.image}`}
           alt={product.title}
           className="h-full w-full object-cover"
         />
-        <p>{`${VITE_SERVER_URI}/${product.image}`}</p>
+        <p>{`${VITE_SERVER_URI}${product.image}`}</p>
 
         <div className="absolute left-3 top-3 flex gap-2">
           {product.tags.map((tag) => (
