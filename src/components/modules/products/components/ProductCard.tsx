@@ -1,98 +1,81 @@
 import type { FC } from "react"
 import type { Product } from "../../../../types"
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "../../../shadcn/ui/card"
-import { Badge } from "../../../shadcn/ui/badge"
-import { Progress } from "../../../shadcn/ui/progress"
-
 interface ProductCardProps {
   product: Product
 }
 
+import { useState } from "react";
+import usdtIcon from "/icons/usdt.svg";
+import minusIcon from "/icons/minus.svg";
+import plusIcon from "/icons/plus.svg";
+import { Button } from "../../../shadcn/ui/button"
+
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
-  const sold = Math.max(0, 100 - product.available)
-  const progress = Math.min(100, sold)
+  const [isSelecting, setIsSelecting] = useState(false);
+  const [count, setCount] = useState(1);
+
+  const handleBuyClick = () => {
+    setIsSelecting(true);
+    setCount(1);
+  };
+
+  const handleCancel = () => {
+    setIsSelecting(false);
+    setCount(1);
+  };
+
+  const increment = () => setCount((prev) => prev + 1);
+  const decrement = () => {
+    if (count > 1) setCount((prev) => prev - 1);
+  };
 
   return (
-    <Card className="group relative w-full max-w-sm overflow-hidden rounded-3xl border bg-background/60 backdrop-blur transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-      {/* IMAGE */}
-      <div className="relative">
+    <div className="w-full max-w-[400px] overflow-hidden rounded-2xl bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] flex flex-col">
+      <div className="relative h-[260px] w-full bg-neutral-100">
         <img
           src={product.image}
           alt={product.title}
-          className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="h-full w-full object-cover"
         />
 
-        {/* TAGS */}
-        {product.tags.length > 0 && (
-          <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-            {product.tags.map((tag) => (
-              <Badge
-                key={tag}
-                variant="secondary"
-                className="bg-black/60 text-white backdrop-blur"
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        )}
-
-        {/* GRADIENT OVERLAY */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        <div className="absolute left-3 top-3 flex gap-2">
+          {product.tags.map((tag) => (
+            <span key={tag} className="rounded-full bg-black/75 px-3 py-1 text-xs font-medium  text-white">
+              {tag}
+            </span> 
+          ))}
+        </div>
       </div>
 
-      {/* HEADER */}
-      <CardHeader className="space-y-2">
-        <h3 className="text-xl font-semibold tracking-tight">
-          {product.title}
-        </h3>
-        <p className="text-sm text-muted-foreground line-clamp-3">
+      <div className="flex flex-col gap-3 p-4">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-[15px] font-semibold text-neutral-900 uppercase">
+            {product.title}
+          </p>
+
+          <div className="flex items-center gap-1.5 text-[15px] font-semibold text-neutral-900">
+            <img src={usdtIcon} alt="USDT" className="h-[18px] w-[18px]" />
+            <span>{product.basePrice} {product.currency}</span>
+          </div>
+        </div>
+
+        <div className="">
+        <p className="whitespace-pre-line text-[14px] font-medium line-height-[19px] text-neutral-900">
           {product.fullDescription}
         </p>
-      </CardHeader>
-
-      {/* CONTENT */}
-      <CardContent className="space-y-5">
-        {/* PRICE */}
-        <div className="flex items-center justify-between rounded-2xl border bg-muted/50 px-4 py-3">
-          <span className="text-sm text-muted-foreground">Цена</span>
-          <span className="text-lg font-semibold">
-            {product.basePrice} {product.currency}
-          </span>
         </div>
 
-        {/* AVAILABILITY */}
-        <div className="space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">В наличии</span>
-            <span className="font-medium">{product.available}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Продано</span>
-            <span className="font-medium">{sold}</span>
-          </div>
-
-          <Progress value={progress} />
-        </div>
-
-        {/* DISCOUNTS */}
         {product.discounts.length > 0 && (
           <div className="space-y-2">
-            <span className="text-sm font-medium">Скидки</span>
+            <span className="text-sm font-medium text-neutral-900">Скидки</span>
 
-            <div className="grid gap-2">
+            <div className="grid gap-2 pt-1">
               {product.discounts.map((discount, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between rounded-xl border bg-background px-3 py-2 text-xs"
+                  className="flex items-center justify-between rounded-xl border text-xs"
                 >
-                  <span className="text-muted-foreground">
+                  <span className="text-neutral-900 font-medium">
                     от {discount.minQuantity} шт.
                   </span>
                   <span className="font-medium text-green-500">
@@ -103,14 +86,52 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
             </div>
           </div>
         )}
-      </CardContent>
 
-      {/* FOOTER */}
-      <CardFooter>
-        <button className="w-full rounded-2xl bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90 active:scale-[0.97]">
-          Купить
-        </button>
-      </CardFooter>
-    </Card>
-  )
-}
+        <div className="flex justify-between text-[13px] text-neutral-500">
+          <p>
+            available: <b className="text-neutral-900">26</b>
+          </p>
+          <p>
+            sales: <b className="text-neutral-900">132</b>
+          </p>
+        </div>
+
+        {!isSelecting ? (
+          <Button onClick={handleBuyClick} className="w-full bg-black text-white h-[40px] ">
+            Buy Now
+          </Button>
+        ) : (
+          <div className="grid grid-cols-[1fr_auto_1fr_2fr] items-center gap-3">
+            <Button
+              variant="secondary"
+              onClick={decrement}
+              className="bg-black text-white h-[40px]"
+            >
+              <img src={minusIcon} alt="minus" className="h-[10px]" />
+            </Button>
+
+            <div className="min-w-[32px] text-center text-base font-semibold text-black">
+              {count}
+            </div>
+
+            <Button
+              variant="secondary"
+              onClick={increment}
+              className="bg-black text-white h-[40px]"
+            >
+              <img src={plusIcon} alt="plus" className="h-[20px]" />
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={handleCancel}
+              className="ml-auto w-full h-[40px] border-red-500 text-red-500 hover:bg-red-50"
+            >
+              Cancel
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
