@@ -3,6 +3,7 @@ import type { Product } from "../types/";
 export interface InitResponse {
   success: boolean;
   user: User;
+  userBalance?: number;
   products: Product[];
 }
 

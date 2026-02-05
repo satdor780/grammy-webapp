@@ -61,7 +61,7 @@ export const Products = () => {
               alt="USDT" 
               className="w-[18px] h-[18px]" 
             />
-            <b>{'user?.balance'}$</b>
+            <b>{data?.userBalance}$</b>
           </div>
         </div>
       </div>
