@@ -8,6 +8,7 @@ import { Button } from "../../shadcn/ui/button";
 import usdtIcon from "/icons/usdt.svg";
 
 
+
 export const Products = () => {
   const initData = useTelegramStore((state) => state.initData);
   // const user = useTelegramStore(state => state.user)
@@ -26,7 +27,8 @@ export const Products = () => {
     }
   }, [initData, mutate]);
 
-  const products = data?.products ?? [];
+  // const products = data?.products ?? [];
+  const products = data?.products ?? []
 
   const totalPrice = useBasketStore((s) => s.getTotalPrice(products));
   const totalItems = useBasketStore((s) => s.getTotalItems());

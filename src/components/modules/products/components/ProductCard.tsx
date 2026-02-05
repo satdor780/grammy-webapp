@@ -51,10 +51,13 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
       <div className="relative h-[260px] w-full bg-neutral-100">
         <img
           src={`${VITE_SERVER_URI}${product.image}`}
+          onError={(e) => {
+            e.currentTarget.src = '/placeholder.jpg';
+            e.currentTarget.onerror = null
+          }}
           alt={product.title}
           className="h-full w-full object-cover"
         />
-        <p>{`${VITE_SERVER_URI}${product.image}`}</p>
 
         <div className="absolute left-3 top-3 flex gap-2">
           {product.tags.map((tag) => (
@@ -66,12 +69,12 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
       </div>
 
       <div className="flex flex-col gap-3 p-4">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-[15px] font-semibold text-neutral-900 uppercase">
+        <div className="flex items-center justify-between gap-3 relative">
+          <p className="text-[15px] font-semibold text-neutral-900 uppercase max-w-[calc(100%-80px)]">
             {product.title}
           </p>
 
-          <div className="flex items-center gap-1.5 text-[15px] font-semibold text-neutral-900">
+          <div className="flex items-center gap-1.5 text-[15px] font-semibold text-neutral-900 absolute right-0">
             <img src={usdtIcon} alt="USDT" className="h-[18px] w-[18px]" />
             <span>{product.basePrice} {product.currency}</span>
           </div>
@@ -97,7 +100,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     от {discount.minQuantity} шт.
                   </span>
                   <span className="font-medium text-green-500">
-                    −{discount.discount}%
+                    −{discount.discount}$
                   </span>
                 </div>
               ))}
