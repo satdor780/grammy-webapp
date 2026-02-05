@@ -13,20 +13,13 @@ import { useBasketStore } from "../../../../store";
 
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const [isSelecting, setIsSelecting] = useState(false);
-  const [count, setCount] = useState(1);
 
   const handleBuyClick = () => {
     setIsSelecting(true);
-    setCount(1);
   };
 
   const handleCancel = () => {
     updateQuantity(product.id, 0);
-  };
-
-  const increment = () => setCount((prev) => prev + 1);
-  const decrement = () => {
-    if (count > 1) setCount((prev) => prev - 1);
   };
 
   const { getItemQuantity, addItem, updateQuantity } = useBasketStore();
@@ -120,27 +113,27 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
           <Button onClick={handleBuyClick} className="w-full bg-black text-white h-[40px] ">
             Buy Now
           </Button>
-        ) : (
-          <div className="grid grid-cols-[1fr_auto_1fr_2fr] items-center gap-3">
-            <Button
-              variant="secondary"
-              onClick={handleDecrement}
-              className="bg-black text-white h-[40px]"
-            >
-              <img src={minusIcon} alt="minus" className="h-[10px]" />
-            </Button>
+          ) : (
+            <div className="grid grid-cols-[1fr_auto_1fr_2fr] items-center gap-3">
+              <Button
+            variant="secondary"
+            onClick={handleDecrement}
+            className="bg-black text-white h-[40px]"
+          >
+            <img src={minusIcon} alt="minus" className="h-[10px]" />
+          </Button>
 
-            <div className="min-w-[32px] text-center text-base font-semibold text-black">
-              {count}
-            </div>
+          <div className="min-w-[32px] text-center text-base font-semibold text-black">
+            {quantity}
+          </div>
 
-            <Button
-              variant="secondary"
-              onClick={handleIncrement}
-              className="bg-black text-white h-[40px]"
-            >
-              <img src={plusIcon} alt="plus" className="h-[20px]" />
-            </Button>
+          <Button
+            variant="secondary"
+            onClick={handleIncrement}
+            className="bg-black text-white h-[40px]"
+          >
+            <img src={plusIcon} alt="plus" className="h-[20px]" />
+          </Button>
 
             <Button
               variant="outline"
