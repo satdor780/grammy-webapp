@@ -42,7 +42,7 @@ export const Products = () => {
   };
 
   return (
-    <div className="flex flex-col items-center px-4 py-5 gap-4 pb-10">
+    <div className="flex flex-col items-center px-4 py-5 gap-4 pb-[100px]">
       <div className="flex items-center justify-between w-full">
         <h1 className="gothic-font text-xl uppercase">
           Mailzy
@@ -96,7 +96,7 @@ export const Products = () => {
       {!isPending &&
         !isError && (
         <div className="fixed w-full px-5 py-0 bottom-10 left-0 right-0">
-          <Button className="w-full" onClick={handleClose}>
+          <Button className="w-full bg-black h-[40px] text-white" onClick={handleClose}>
             {!hasItems ? 'Закрыть' : (
                 `Buy Now ${totalPrice.toFixed(2)}$`
             )}

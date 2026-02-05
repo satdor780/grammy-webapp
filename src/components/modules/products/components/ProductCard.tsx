@@ -54,6 +54,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
           alt={product.title}
           className="h-full w-full object-cover"
         />
+        <p>{`${VITE_SERVER_URI}/${product.image}`}</p>
 
         <div className="absolute left-3 top-3 flex gap-2">
           {product.tags.map((tag) => (
