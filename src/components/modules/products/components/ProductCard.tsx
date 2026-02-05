@@ -9,6 +9,7 @@ import usdtIcon from "/icons/usdt.svg";
 import minusIcon from "/icons/minus.svg";
 import plusIcon from "/icons/plus.svg";
 import { Button } from "../../../shadcn/ui/button"
+import { useBasketStore } from "../../../../store";
 
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const [isSelecting, setIsSelecting] = useState(false);
@@ -20,13 +21,32 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
   };
 
   const handleCancel = () => {
-    setIsSelecting(false);
-    setCount(1);
+    updateQuantity(product.id, 0);
   };
 
   const increment = () => setCount((prev) => prev + 1);
   const decrement = () => {
     if (count > 1) setCount((prev) => prev - 1);
+  };
+
+  const { getItemQuantity, addItem, updateQuantity } = useBasketStore();
+
+  const quantity = getItemQuantity(product.id);
+
+  const handleIncrement = () => {
+    if (quantity === 0) {
+      addItem(product.id);
+    } else {
+      updateQuantity(product.id, quantity + 1);
+    }
+  };
+
+  const handleDecrement = () => {
+    if (quantity <= 1) {
+      updateQuantity(product.id, 0);
+    } else {
+      updateQuantity(product.id, quantity - 1);
+    }
   };
 
   return (
@@ -104,7 +124,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
           <div className="grid grid-cols-[1fr_auto_1fr_2fr] items-center gap-3">
             <Button
               variant="secondary"
-              onClick={decrement}
+              onClick={handleDecrement}
               className="bg-black text-white h-[40px]"
             >
               <img src={minusIcon} alt="minus" className="h-[10px]" />
@@ -116,7 +136,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
             <Button
               variant="secondary"
-              onClick={increment}
+              onClick={handleIncrement}
               className="bg-black text-white h-[40px]"
             >
               <img src={plusIcon} alt="plus" className="h-[20px]" />

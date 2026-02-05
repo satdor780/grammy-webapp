@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useInit } from "../../../hooks/useInit";
-import { useTelegramStore } from "../../../store";
+import { useBasketStore, useTelegramStore } from "../../../store";
 import { ProductCard } from "./components";
 import { Skeleton } from "../../shadcn/ui/skeleton";
 import { Alert, AlertDescription } from "../../shadcn/ui/alert";
+import { Button } from "../../shadcn/ui/button";
 
 
 
@@ -26,6 +27,18 @@ export const Products = () => {
 
   const products = data?.products ?? [];
 
+  const totalPrice = useBasketStore((s) => s.getTotalPrice(products));
+  const totalItems = useBasketStore((s) => s.getTotalItems());
+  const hasItems = totalItems > 0;
+
+  const tg = window.Telegram?.WebApp;
+
+  const handleClose = () => {
+    if(hasItems) alert('not close app');
+    if (tg) {
+      tg.close();
+    }
+  };
 
   return (
     <div className="flex flex-col items-center px-4 py-5 gap-4">
@@ -58,6 +71,17 @@ export const Products = () => {
         products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
+
+      {!isPending &&
+        !isError && (
+        <div className="fixed w-full px-5 py-0 bottom-10 left-0 right-0">
+          <Button className="w-full" onClick={handleClose}>
+            {!hasItems ? 'Закрыть' : (
+                `Buy Now ${totalPrice.toFixed(2)}$`
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
