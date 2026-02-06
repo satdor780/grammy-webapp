@@ -100,7 +100,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     от {discount.minQuantity} шт.
                   </span>
                   <span className="font-medium text-green-500">
-                    −{discount.discount}$
+                    {discount.discount}$
                   </span>
                 </div>
               ))}

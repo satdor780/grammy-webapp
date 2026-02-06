@@ -61,7 +61,7 @@ export const Products = () => {
               alt="USDT" 
               className="w-[18px] h-[18px]" 
             />
-            <b>{data?.userBalance}$</b>
+            <b>{data?.userBalance ?? 'Не удалось получить баланс'}$</b>
           </div>
         </div>
       </div>
