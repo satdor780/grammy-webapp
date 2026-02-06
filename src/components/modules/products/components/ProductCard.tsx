@@ -36,6 +36,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available }) => {
     if (quantity === 0) {
       addItem(product.id);
     } else {
+      if(available && quantity >= available) return
       updateQuantity(product.id, quantity + 1);
     }
   };
@@ -43,6 +44,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available }) => {
   const handleDecrement = () => {
     if (quantity <= 1) {
       updateQuantity(product.id, 0);
+      setIsSelecting(false);
     } else {
       updateQuantity(product.id, quantity - 1);
     }
