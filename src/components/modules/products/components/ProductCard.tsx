@@ -111,7 +111,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available }) => {
 
         <div className="flex justify-between text-[13px] text-neutral-500">
           <p>
-            available: <b className="text-neutral-900">{available ?? 'out of stock'}</b>
+            available: <b className="text-neutral-900">{(available && available !== 0) ? available: 'out of stock'}</b>
           </p>
           {/* <p>
             sales: <b className="text-neutral-900">132</b>
