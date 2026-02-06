@@ -4,6 +4,10 @@ export interface InitResponse {
   success: boolean;
   user: User;
   userBalance?: number;
+  warehouse: {
+    productId: string;
+    available: number;
+  }[];
   products: Product[];
 }
 

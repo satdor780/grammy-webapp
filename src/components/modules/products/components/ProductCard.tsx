@@ -1,7 +1,8 @@
 import type { FC } from "react"
 import type { Product } from "../../../../types"
 interface ProductCardProps {
-  product: Product
+  product: Product,
+  available?: number,
 }
 
 import { useState } from "react";
@@ -14,7 +15,7 @@ import { useBasketStore } from "../../../../store";
 // const VITE_SERVER_URI = import.meta.env.VITE_SERVER_URI
 const VITE_SERVER_URI = 'http://localhost:3000'
 
-export const ProductCard: FC<ProductCardProps> = ({ product }) => {
+export const ProductCard: FC<ProductCardProps> = ({ product, available }) => {
   const [isSelecting, setIsSelecting] = useState(false);
 
   const handleBuyClick = () => {
@@ -110,11 +111,11 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
         <div className="flex justify-between text-[13px] text-neutral-500">
           <p>
-            available: <b className="text-neutral-900">26</b>
+            available: <b className="text-neutral-900">{available ?? 'out of stock'}</b>
           </p>
-          <p>
+          {/* <p>
             sales: <b className="text-neutral-900">132</b>
-          </p>
+          </p> */}
         </div>
 
         {!isSelecting ? (

@@ -91,9 +91,12 @@ export const Products = () => {
 
       {!isPending &&
         !isError &&
-        products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        products.map((product) => {
+          const productCount = data?.warehouse.find(e => e.productId === product.id)
+          return (
+            <ProductCard key={product.id} product={product} available={productCount?.available} />
+          )
+        })}
 
       {!isPending &&
         !isError && (
