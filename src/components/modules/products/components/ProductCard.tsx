@@ -25,6 +25,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available }) => {
 
   const handleCancel = () => {
     updateQuantity(product.id, 0);
+    setIsSelecting(false);
   };
 
   const { getItemQuantity, addItem, updateQuantity } = useBasketStore();
@@ -119,7 +120,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available }) => {
         </div>
 
         {!isSelecting ? (
-          <Button onClick={handleBuyClick} className="w-full bg-black text-white h-[40px] ">
+          <Button onClick={handleBuyClick} disabled={!available && available === 0} className="w-full bg-black text-white h-[40px] ">
             Buy Now
           </Button>
           ) : (
