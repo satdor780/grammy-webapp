@@ -6,6 +6,7 @@ import { Skeleton } from "../../shadcn/ui/skeleton";
 import { Alert, AlertDescription } from "../../shadcn/ui/alert";
 import { Button } from "../../shadcn/ui/button";
 import usdtIcon from "/icons/usdt.svg";
+import { submitOrder } from "../../../api/submitOrder";
 
 
 
@@ -21,7 +22,7 @@ export const Products = () => {
     error,
   } = useInit();
 
-  const [ers, setErs] = useState('')
+  // const [ers, setErs] = useState('')
 
   useEffect(() => {
     if (initData) {
@@ -35,31 +36,36 @@ export const Products = () => {
   const totalPrice = useBasketStore((s) => s.getTotalPrice(products));
   const totalItems = useBasketStore((s) => s.getTotalItems());
   const basketItems = useBasketStore((s) => s.items);
+  const clearBasket = useBasketStore((s) => s.clearBasket);
   const hasItems = totalItems > 0;
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const tg = window.Telegram?.WebApp;
 
-  const handleCloseOrBuy = () => {
+  const handleCloseOrBuy = async () => {
     if (tg && hasItems) {
-      const payload = {
-        type: "basket",
-        items: basketItems,
-        totalPrice,
-      };
-
       try {
-        tg.sendData(JSON.stringify(payload));
-        setErs('send data'+JSON.stringify(payload)) // I get it
+        setIsSubmitting(true);
+        await submitOrder({
+          initData: initData ?? "",
+          items: basketItems.map((i) => ({
+            productId: i.productId,
+            quantity: i.quantity,
+          })),
+          totalPrice,
+        });
+        clearBasket();
+        tg.close();
       } catch (e) {
-        console.error("Failed to send WebApp data", e);
-        setErs(JSON.stringify(e) + 'data:' + JSON.stringify(hasItems))
+        console.error("Failed to submit order", e);
+        setIsSubmitting(false);
       }
-      return
+      return;
     }
-    setErs('not tg && hasItems')
-    // if (tg) {
-    //   tg.close();
-    // }
+    if (tg) {
+      tg.close();
+    }
   };
 
   return (
@@ -71,7 +77,7 @@ export const Products = () => {
 
         <div className="flex items-center gap-3">
           <span className="font-semibold text-sm text-white leading-none">
-            Balance: { JSON.stringify(tg) }{tg ? 'have tg': 'not have tg'}
+            Balance:
           </span>
           
           <div className="flex items-center gap-1 text-sm text-white leading-none">
@@ -106,9 +112,6 @@ export const Products = () => {
           Products not found
         </p>
       )}
-    
-      <p>error: {ers}</p>
-
 
       {!isPending &&
         !isError &&
@@ -125,10 +128,13 @@ export const Products = () => {
           <Button
             className="w-full bg-white h-[40px] text-black"
             onClick={handleCloseOrBuy}
+            disabled={isSubmitting}
           >
-            {!hasItems ? 'Закрыть' : (
-              `Buy Now ${totalPrice.toFixed(2)}$`
-            )}
+            {isSubmitting
+              ? "..."
+              : !hasItems
+                ? "Закрыть"
+                : `Buy Now ${totalPrice.toFixed(2)}$`}
           </Button>
         </div>
       )}
