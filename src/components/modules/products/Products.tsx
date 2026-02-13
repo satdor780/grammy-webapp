@@ -49,7 +49,7 @@ export const Products = () => {
 
       try {
         tg.sendData(JSON.stringify(payload));
-        setErs('send data'+JSON.stringify(payload))
+        setErs('send data'+JSON.stringify(payload)) // I get it
       } catch (e) {
         console.error("Failed to send WebApp data", e);
         setErs(JSON.stringify(e) + 'data:' + JSON.stringify(hasItems))
@@ -71,7 +71,7 @@ export const Products = () => {
 
         <div className="flex items-center gap-3">
           <span className="font-semibold text-sm text-white leading-none">
-            Balance: 
+            Balance: { JSON.stringify(tg) }{tg ? 'have tg': 'not have tg'}
           </span>
           
           <div className="flex items-center gap-1 text-sm text-white leading-none">
