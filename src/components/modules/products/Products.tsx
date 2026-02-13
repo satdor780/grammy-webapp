@@ -32,12 +32,26 @@ export const Products = () => {
 
   const totalPrice = useBasketStore((s) => s.getTotalPrice(products));
   const totalItems = useBasketStore((s) => s.getTotalItems());
+  const basketItems = useBasketStore((s) => s.items);
   const hasItems = totalItems > 0;
 
   const tg = window.Telegram?.WebApp;
 
-  const handleClose = () => {
-    if(hasItems) alert('not close app');
+  const handleCloseOrBuy = () => {
+    if (tg && hasItems) {
+      const payload = {
+        type: "basket",
+        items: basketItems,
+        totalPrice,
+      };
+
+      try {
+        tg.sendData(JSON.stringify(payload));
+      } catch (e) {
+        console.error("Failed to send WebApp data", e);
+      }
+    }
+
     if (tg) {
       tg.close();
     }
@@ -101,9 +115,12 @@ export const Products = () => {
       {!isPending &&
         !isError && (
         <div className="fixed w-full px-5 py-0 bottom-10 left-0 right-0">
-          <Button className="w-full bg-white h-[40px] text-black" onClick={handleClose}>
+          <Button
+            className="w-full bg-white h-[40px] text-black"
+            onClick={handleCloseOrBuy}
+          >
             {!hasItems ? 'Закрыть' : (
-                `Buy Now ${totalPrice.toFixed(2)}$`
+              `Buy Now ${totalPrice.toFixed(2)}$`
             )}
           </Button>
         </div>
