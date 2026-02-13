@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInit } from "../../../hooks/useInit";
 import { useBasketStore, useTelegramStore } from "../../../store";
 import { ProductCard } from "./components";
@@ -20,6 +20,8 @@ export const Products = () => {
     isError,
     error,
   } = useInit();
+
+  const [ers, setErs] = useState('')
 
   useEffect(() => {
     if (initData) {
@@ -49,6 +51,7 @@ export const Products = () => {
         tg.sendData(JSON.stringify(payload));
       } catch (e) {
         console.error("Failed to send WebApp data", e);
+        setErs(JSON.stringify(e) + 'data:' + JSON.stringify(hasItems))
       }
     }
 
@@ -66,7 +69,7 @@ export const Products = () => {
 
         <div className="flex items-center gap-3">
           <span className="font-semibold text-sm text-white leading-none">
-            Balance:
+            Balance: 
           </span>
           
           <div className="flex items-center gap-1 text-sm text-white leading-none">
@@ -101,6 +104,8 @@ export const Products = () => {
           Products not found
         </p>
       )}
+    
+      <p>error: {ers}</p>
 
 
       {!isPending &&
