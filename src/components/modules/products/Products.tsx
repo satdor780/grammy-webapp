@@ -49,12 +49,14 @@ export const Products = () => {
 
       try {
         tg.sendData(JSON.stringify(payload));
+        setErs('send data'+JSON.stringify(payload))
       } catch (e) {
         console.error("Failed to send WebApp data", e);
         setErs(JSON.stringify(e) + 'data:' + JSON.stringify(hasItems))
       }
+      return
     }
-
+    setErs('not tg && hasItems')
     // if (tg) {
     //   tg.close();
     // }
