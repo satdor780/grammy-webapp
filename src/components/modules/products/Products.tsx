@@ -55,9 +55,9 @@ export const Products = () => {
       }
     }
 
-    if (tg) {
-      tg.close();
-    }
+    // if (tg) {
+    //   tg.close();
+    // }
   };
 
   return (
