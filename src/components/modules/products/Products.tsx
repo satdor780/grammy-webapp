@@ -118,7 +118,6 @@ export const Products = () => {
           );
           return (
             <ProductCard
-              isAdmin={data?.user.isAdmin}
               key={product.id}
               product={product}
               available={productCount?.available}

@@ -3,7 +3,6 @@ import type { Product } from "../../../../types";
 interface ProductCardProps {
   product: Product;
   available?: number;
-  isAdmin: boolean | undefined;
 }
 
 import { useState } from "react";
@@ -19,7 +18,6 @@ const VITE_SERVER_URI = "http://localhost:3000";
 export const ProductCard: FC<ProductCardProps> = ({
   product,
   available,
-  isAdmin,
 }) => {
   const [isSelecting, setIsSelecting] = useState(false);
 
