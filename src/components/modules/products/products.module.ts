@@ -1,92 +1,21 @@
-// import type { Product } from "../../../types";
+// import type { CheckUserPromoCodeResponse } from "../../../api";
 
-// export const productsList: Product[] = [
-//   {
-//     _id: "6983d722737e28abd2e2177c",
-//     type: "custom",
-//     slug: "paypal",
-//     title: "paypal",
-//     image: "/api/uploads/51a930e6-ba6e-45ff-bad9-792209c3a121.jpg",
-//     shortDescription: "short desc",
-//     fullDescription: "desctiption",
-//     basePrice: 100,
-//     currency: "USDT",
-//     available: 0,
-//     discounts: [
-//       {
-//         minQuantity: 30,
-//         discount: 0.9,
-//       },
-//     ],
-//     tags: ["tag1", "tag2"],
-//     createdAt: "2026-02-04T23:32:50.184Z",
-//     updatedAt: "2026-02-04T23:32:50.184Z",
+// export const response: CheckUserPromoCodeResponse = {
+//   promoCode: {
+//     _id: "6994d4fd69804527fbdd3f1f",
+//     name: "vrvrever",
+//     discount: 55,
+//     discountType: "percent",
+//     code: "TESTCODESS",
+//     source: "@mailzy_botbgfb",
+//     uses: 0,
+//     maxUses: 1000,
+//     appliesToProducts: [],
+//     expiresAt: "2026-03-21T18:59:00.000Z",
+//     createdAt: "2026-02-17T20:52:13.083Z",
+//     updatedAt: "2026-02-17T20:52:13.083Z",
 //     __v: 0,
-//     id: "6983d722737e28abd2e2177c",
 //   },
-//   {
-//     _id: "6984dc1e18b98845299b57a8",
-//     type: "custom",
-//     slug: "paypals",
-//     title: "PayPal Account 2024 with transaction",
-//     image: "/api/uploads/4b8a7d4a-491b-4942-9972-ddfcfd8723a3.jpg",
-//     shortDescription:
-//       "Username +Password \\n\nLogin to the  account using a code from email  \\n\nFull details: Full name, date of birth, SSN, address \\n",
-//     fullDescription:
-//       "Username +Password \\n\nLogin to the  account using a code from email  \\n\nFull details: Full name, date of birth, SSN, address \\n",
-//     basePrice: 80,
-//     currency: "USDT",
-//     available: 0,
-//     discounts: [
-//       {
-//         minQuantity: 20,
-//         discount: 0.65,
-//       },
-//     ],
-//     tags: ["Ограничено"],
-//     createdAt: "2026-02-05T18:06:22.060Z",
-//     updatedAt: "2026-02-05T18:06:22.060Z",
-//     __v: 0,
-//     id: "6984dc1e18b98845299b57a8",
-//   },
-//   {
-//     _id: "6984e3bc18b98845299b57c2",
-//     type: "custom",
-//     slug: "boxel",
-//     title: "Broxel VCC Card",
-//     image: "/api/uploads/cf1d4592-f514-455f-b69e-3e0437ad353c.jpg",
-//     shortDescription: "ntrnr",
-//     fullDescription:
-//       "When purchasing 5 or more: 80$\nFor purchasing all: 75$\nContact: @DRKSHDW110",
-//     basePrice: 99.99,
-//     currency: "USDT",
-//     available: 0,
-//     discounts: [
-//       {
-//         minQuantity: 5,
-//         discount: 0.8001999999999999,
-//       },
-//     ],
-//     tags: ["популярное", "сексуальное"],
-//     createdAt: "2026-02-05T18:38:52.923Z",
-//     updatedAt: "2026-02-05T18:38:52.923Z",
-//     __v: 0,
-//     id: "6984e3bc18b98845299b57c2",
-//   },
-//   {
-//     _id: "6984e53ad7acdbef0c727230",
-//     type: "mail",
-//     title: "Новый продукт (Почта)",
-//     image: "https://via.placeholder.com/300",
-//     shortDescription: "Заполните позже",
-//     basePrice: 0.01,
-//     currency: "USDT",
-//     available: 0,
-//     tags: [],
-//     discounts: [],
-//     createdAt: "2026-02-05T18:45:14.993Z",
-//     updatedAt: "2026-02-05T18:45:14.993Z",
-//     __v: 0,
-//     id: "6984e53ad7acdbef0c727230",
-//   },
-// ];
+//   valid: true,
+//   message: "Промокод активен",
+// };

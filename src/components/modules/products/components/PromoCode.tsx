@@ -2,6 +2,7 @@ import { useCheckUserPromoCode } from "../../../../hooks";
 import { useTelegramStore } from "../../../../store";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../../shadcn/ui/card";
 import { Badge } from "../../../shadcn/ui/badge";
+import couponIcon from "/icons/coupon.svg";
 
 function formatExpiration(expiresAt?: string | null): string | null {
   if (!expiresAt) return null;
@@ -30,6 +31,8 @@ export const PromoCode = () => {
 
   const promoCode = data.promoCode
 
+  // const promoCode = response.promoCode
+
   if(!promoCode) return
 
   const discountLabel =
@@ -43,26 +46,26 @@ export const PromoCode = () => {
 
   return (
     // <p>{JSON.stringify(promoCode)}{JSON.stringify(isError)}</p>
-    <Card className="w-full max-w-[450px] bg-emerald-900/40 border-emerald-500/40 text-emerald-50">
-      <CardHeader className="flex flex-row items-center gap-3 pb-3">
+    <Card className="w-full max-w-[450px] bg-[#040404] border text-emerald-50 py-4 gap-5">
+      <CardHeader className="flex flex-row items-center gap-3 pb-3 px-4">
         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/20">
-          <span className="text-lg">🏷️</span>
+          <img src={couponIcon} alt="minus" className="h-[20px]" />
         </div>
         <div>
           <CardTitle className="text-sm uppercase tracking-wide">
             Активирован промокод
           </CardTitle>
-          <CardDescription className="text-xs text-emerald-100/80">
+          <CardDescription className="text-xs text-white">
             {promoCode.name}
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="flex items-center justify-between gap-3 pt-0">
+      <CardContent className="flex items-center justify-between gap-3 pt-0 px-4">
         <div className="space-y-1 text-xs text-muted-foreground">
           {discountLabel && (
             <p>
               Скидка:{" "}
-              <span className="font-semibold text-emerald-200">
+              <span className="font-semibold text-white">
                 {discountLabel}
               </span>
             </p>
@@ -70,7 +73,7 @@ export const PromoCode = () => {
           {formattedExpiration && (
             <p>
               Действует до{" "}
-              <span className="font-medium text-emerald-200">
+              <span className="font-medium text-white">
                 {formattedExpiration}
               </span>
             </p>
@@ -78,7 +81,7 @@ export const PromoCode = () => {
         </div>
         <Badge
           variant="outline"
-          className="border-emerald-400/60 bg-emerald-500/10 text-emerald-50"
+          className="border bg-[#040404] text-white"
         >
           {promoCode.name}
         </Badge>
