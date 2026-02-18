@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useInit } from "../../../hooks/useInit";
 import { useBasketStore, useTelegramStore } from "../../../store";
-import { ProductCard } from "./components";
+import { ProductCard, PromoCode } from "./components";
 import { Skeleton } from "../../shadcn/ui/skeleton";
 import { Alert, AlertDescription } from "../../shadcn/ui/alert";
 import { Button } from "../../shadcn/ui/button";
@@ -68,6 +68,7 @@ export const Products = () => {
 
   return (
     <div className="flex flex-col items-center px-4 py-5 gap-4 pb-[100px]">
+
       <div className="flex items-center justify-between w-full">
         <h1 className="gothic-font text-xl uppercase">Mailzy</h1>
 
@@ -108,6 +109,7 @@ export const Products = () => {
         <p className="text-sm text-muted-foreground">Products not found</p>
       )}
 
+      <PromoCode />
       {!isPending &&
         !isError &&
         products.map((product) => {
