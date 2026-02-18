@@ -1,27 +1,31 @@
-import type { FC } from "react"
-import type { Product } from "../../../../types"
+import type { FC } from "react";
+import type { Product } from "../../../../types";
 interface ProductCardProps {
-  product: Product,
-  available?: number,
-  isAdmin: boolean | undefined
+  product: Product;
+  available?: number;
+  isAdmin: boolean | undefined;
 }
 
 import { useState } from "react";
 import usdtIcon from "/icons/usdt.svg";
 import minusIcon from "/icons/minus.svg";
 import plusIcon from "/icons/plus.svg";
-import { Button } from "../../../shadcn/ui/button"
+import { Button } from "../../../shadcn/ui/button";
 import { useBasketStore } from "../../../../store";
 
 // const VITE_SERVER_URI = import.meta.env.VITE_SERVER_URI
-const VITE_SERVER_URI = 'http://localhost:3000'
+const VITE_SERVER_URI = "http://localhost:3000";
 
-export const ProductCard: FC<ProductCardProps> = ({ product, available, isAdmin }) => {
+export const ProductCard: FC<ProductCardProps> = ({
+  product,
+  available,
+  isAdmin,
+}) => {
   const [isSelecting, setIsSelecting] = useState(false);
 
   const handleBuyClick = () => {
     setIsSelecting(true);
-    handleIncrement()
+    handleIncrement();
   };
 
   const handleCancel = () => {
@@ -37,7 +41,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available, isAdmin 
     if (quantity === 0) {
       addItem(product.id);
     } else {
-      if(available && quantity >= available) return
+      if (available && quantity >= available) return;
       updateQuantity(product.id, quantity + 1);
     }
   };
@@ -57,8 +61,8 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available, isAdmin 
         <img
           src={`${VITE_SERVER_URI}${product.image}`}
           onError={(e) => {
-            e.currentTarget.src = '/placeholder.jpg';
-            e.currentTarget.onerror = null
+            e.currentTarget.src = "/placeholder.jpg";
+            e.currentTarget.onerror = null;
           }}
           alt={product.title}
           className="h-full w-full object-cover"
@@ -66,9 +70,12 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available, isAdmin 
 
         <div className="absolute left-3 top-3 flex gap-2">
           {product.tags.map((tag) => (
-            <span key={tag} className="rounded-full bg-black/75 px-3 py-1 text-xs font-medium  text-white">
+            <span
+              key={tag}
+              className="rounded-full bg-black/75 px-3 py-1 text-xs font-medium  text-white"
+            >
               {tag}
-            </span> 
+            </span>
           ))}
         </div>
       </div>
@@ -81,7 +88,9 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available, isAdmin 
 
           <div className="flex items-center gap-1.5 text-[15px] font-semibold text-neutral-900 absolute right-0">
             <img src={usdtIcon} alt="USDT" className="h-[18px] w-[18px]" />
-            <span>{product.basePrice} {product.currency}</span>
+            <span>
+              {product.basePrice} {product.currency}
+            </span>
           </div>
         </div>
 
@@ -115,7 +124,10 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available, isAdmin 
 
         <div className="flex justify-between text-[13px] text-neutral-500">
           <p>
-            available: <b className="text-neutral-900">{(available && available !== 0) ? available: 'out of stock'}</b>
+            available:{" "}
+            <b className="text-neutral-900">
+              {available && available !== 0 ? available : "out of stock"}
+            </b>
           </p>
           {/* <p>
             sales: <b className="text-neutral-900">132</b>
@@ -123,30 +135,34 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available, isAdmin 
         </div>
 
         {!isSelecting ? (
-          <Button onClick={handleBuyClick} disabled={!isAdmin && (!available && available === 0)} className="w-full bg-black text-white h-[40px] ">
+          <Button
+            onClick={handleBuyClick}
+            disabled={isAdmin && !available && available === 0}
+            className="w-full bg-black text-white h-[40px] "
+          >
             Buy Now
           </Button>
-          ) : (
-            <div className="grid grid-cols-[1fr_auto_1fr_2fr] items-center gap-3">
-              <Button
-            variant="secondary"
-            onClick={handleDecrement}
-            className="bg-black text-white h-[40px]"
-          >
-            <img src={minusIcon} alt="minus" className="h-[10px]" />
-          </Button>
+        ) : (
+          <div className="grid grid-cols-[1fr_auto_1fr_2fr] items-center gap-3">
+            <Button
+              variant="secondary"
+              onClick={handleDecrement}
+              className="bg-black text-white h-[40px]"
+            >
+              <img src={minusIcon} alt="minus" className="h-[10px]" />
+            </Button>
 
-          <div className="min-w-[32px] text-center text-base font-semibold text-black">
-            {quantity}
-          </div>
+            <div className="min-w-[32px] text-center text-base font-semibold text-black">
+              {quantity}
+            </div>
 
-          <Button
-            variant="secondary"
-            onClick={handleIncrement}
-            className="bg-black text-white h-[40px]"
-          >
-            <img src={plusIcon} alt="plus" className="h-[20px]" />
-          </Button>
+            <Button
+              variant="secondary"
+              onClick={handleIncrement}
+              className="bg-black text-white h-[40px]"
+            >
+              <img src={plusIcon} alt="plus" className="h-[20px]" />
+            </Button>
 
             <Button
               variant="outline"

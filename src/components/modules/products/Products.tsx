@@ -8,19 +8,11 @@ import { Button } from "../../shadcn/ui/button";
 import usdtIcon from "/icons/usdt.svg";
 import { submitOrder } from "../../../api/submitOrder";
 
-
-
 export const Products = () => {
   const initData = useTelegramStore((state) => state.initData);
   // const user = useTelegramStore(state => state.user)
 
-  const {
-    mutate,
-    data,
-    isPending,
-    isError,
-    error,
-  } = useInit();
+  const { mutate, data, isPending, isError, error } = useInit();
 
   // const [ers, setErs] = useState('')
 
@@ -31,7 +23,7 @@ export const Products = () => {
   }, [initData, mutate]);
 
   // const products = data?.products ?? [];
-  const products = data?.products ?? []
+  const products = data?.products ?? [];
 
   const totalPrice = useBasketStore((s) => s.getTotalPrice(products));
   const totalItems = useBasketStore((s) => s.getTotalItems());
@@ -72,27 +64,26 @@ export const Products = () => {
     if (tg) {
       tg.close();
     }
-  }
+  };
 
   return (
     <div className="flex flex-col items-center px-4 py-5 gap-4 pb-[100px]">
       <div className="flex items-center justify-between w-full">
-        <h1 className="gothic-font text-xl uppercase">
-          Mailzy
-        </h1>
+        <h1 className="gothic-font text-xl uppercase">Mailzy</h1>
 
         <div className="flex items-center gap-3">
           <span className="font-semibold text-sm text-white leading-none">
             Balance:
           </span>
-          
+
           <div className="flex items-center gap-1 text-sm text-white leading-none">
-            <img 
-              src={usdtIcon} 
-              alt="USDT" 
-              className="w-[18px] h-[18px]" 
-            />
-            <b>{data?.userBalance ? data.userBalance.toFixed(2):  'Не удалось получить баланс'}$</b>
+            <img src={usdtIcon} alt="USDT" className="w-[18px] h-[18px]" />
+            <b>
+              {data?.userBalance
+                ? data.userBalance.toFixed(2)
+                : "Не удалось получить баланс"}
+              $
+            </b>
           </div>
         </div>
       </div>
@@ -114,22 +105,26 @@ export const Products = () => {
       )}
 
       {!isPending && !isError && products.length === 0 && (
-        <p className="text-sm text-muted-foreground">
-          Products not found
-        </p>
+        <p className="text-sm text-muted-foreground">Products not found</p>
       )}
 
       {!isPending &&
         !isError &&
         products.map((product) => {
-          const productCount = data?.warehouse.find(e => e.productId === product.id)
+          const productCount = data?.warehouse.find(
+            (e) => e.productId === product.id,
+          );
           return (
-            <ProductCard isAdmin={data?.user.isAdmin} key={product.id} product={product} available={productCount?.available} />
-          )
+            <ProductCard
+              isAdmin={data?.user.isAdmin}
+              key={product.id}
+              product={product}
+              available={productCount?.available}
+            />
+          );
         })}
 
-      {!data?.user.isAdmin && !isPending &&
-        !isError && (
+      {!data?.user.isAdmin && !isPending && !isError && (
         <div className="fixed w-full px-5 py-0 bottom-10 left-0 right-0">
           <Button
             className="w-full bg-white h-[40px] text-black"
