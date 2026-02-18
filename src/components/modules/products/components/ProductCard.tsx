@@ -137,7 +137,7 @@ export const ProductCard: FC<ProductCardProps> = ({
         {!isSelecting ? (
           <Button
             onClick={handleBuyClick}
-            disabled={isAdmin && !available && available === 0}
+            disabled={!available && available === 0}
             className="w-full bg-black text-white h-[40px] "
           >
             Buy Now
