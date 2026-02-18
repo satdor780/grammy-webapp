@@ -19,5 +19,7 @@ export interface User {
   balance: number;
   createdAt: string;
   updatedAt: string;
+  isAdmin: boolean;
+  promoCode: string;
   __v: number;
 }

@@ -68,6 +68,12 @@ export const Products = () => {
     }
   };
 
+  const handleClose = () => {
+    if (tg) {
+      tg.close();
+    }
+  }
+
   return (
     <div className="flex flex-col items-center px-4 py-5 gap-4 pb-[100px]">
       <div className="flex items-center justify-between w-full">
@@ -86,7 +92,7 @@ export const Products = () => {
               alt="USDT" 
               className="w-[18px] h-[18px]" 
             />
-            <b>{data?.userBalance ?? 'Не удалось получить баланс'}$</b>
+            <b>{data?.userBalance ? data.userBalance.toFixed(2):  'Не удалось получить баланс'}$</b>
           </div>
         </div>
       </div>
@@ -122,7 +128,7 @@ export const Products = () => {
           )
         })}
 
-      {!isPending &&
+      {!data?.user.isAdmin && !isPending &&
         !isError && (
         <div className="fixed w-full px-5 py-0 bottom-10 left-0 right-0">
           <Button
@@ -135,6 +141,16 @@ export const Products = () => {
               : !hasItems
                 ? "Закрыть"
                 : `Buy Now ${totalPrice.toFixed(2)}$`}
+          </Button>
+        </div>
+      )}
+      {data?.user.isAdmin && (
+        <div className="fixed w-full px-5 py-0 bottom-10 left-0 right-0">
+          <Button
+            className="w-full bg-white h-[40px] text-black"
+            onClick={handleClose}
+          >
+            Закрыть
           </Button>
         </div>
       )}
