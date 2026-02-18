@@ -123,7 +123,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available, isAdmin 
         </div>
 
         {!isSelecting ? (
-          <Button onClick={handleBuyClick} disabled={!isAdmin && (!available && available === 0)} className="w-full bg-black text-white h-[40px] ">
+          <Button onClick={handleBuyClick} disabled={isAdmin && (!available && available === 0)} className="w-full bg-black text-white h-[40px] ">
             Buy Now
           </Button>
           ) : (
