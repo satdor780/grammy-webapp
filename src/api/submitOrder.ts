@@ -17,7 +17,7 @@ export interface SubmitOrderResponse {
 }
 
 export async function submitOrder(
-  payload: SubmitOrderPayload
+  payload: SubmitOrderPayload,
 ): Promise<SubmitOrderResponse> {
   const res = await fetch(`${API_BASE}/api/order`, {
     method: "POST",
@@ -31,7 +31,9 @@ export async function submitOrder(
 
   if (!res.ok) {
     const msg =
-      json && typeof json.error === "string" ? json.error : "Failed to submit order";
+      json && typeof json.error === "string"
+        ? json.error
+        : "Failed to submit order";
     throw new Error(msg);
   }
 
