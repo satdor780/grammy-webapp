@@ -124,7 +124,7 @@ export const Products = () => {
         products.map((product) => {
           const productCount = data?.warehouse.find(e => e.productId === product.id)
           return (
-            <ProductCard key={product.id} product={product} available={productCount?.available} />
+            <ProductCard isAdmin={data?.user.isAdmin} key={product.id} product={product} available={productCount?.available} />
           )
         })}
 

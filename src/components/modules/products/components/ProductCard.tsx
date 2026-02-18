@@ -3,6 +3,7 @@ import type { Product } from "../../../../types"
 interface ProductCardProps {
   product: Product,
   available?: number,
+  isAdmin: boolean | undefined
 }
 
 import { useState } from "react";
@@ -15,7 +16,7 @@ import { useBasketStore } from "../../../../store";
 // const VITE_SERVER_URI = import.meta.env.VITE_SERVER_URI
 const VITE_SERVER_URI = 'http://localhost:3000'
 
-export const ProductCard: FC<ProductCardProps> = ({ product, available }) => {
+export const ProductCard: FC<ProductCardProps> = ({ product, available, isAdmin }) => {
   const [isSelecting, setIsSelecting] = useState(false);
 
   const handleBuyClick = () => {
@@ -85,9 +86,9 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available }) => {
         </div>
 
         <div className="">
-        <p className="whitespace-pre-line text-[14px] font-medium line-height-[19px] text-neutral-900">
-          {product.fullDescription}
-        </p>
+          <p className="whitespace-pre-line text-[14px] font-medium line-height-[19px] text-neutral-900">
+            {product.fullDescription}
+          </p>
         </div>
 
         {product.discounts.length > 0 && (
@@ -122,7 +123,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, available }) => {
         </div>
 
         {!isSelecting ? (
-          <Button onClick={handleBuyClick} disabled={!available && available === 0} className="w-full bg-black text-white h-[40px] ">
+          <Button onClick={handleBuyClick} disabled={!isAdmin && (!available && available === 0)} className="w-full bg-black text-white h-[40px] ">
             Buy Now
           </Button>
           ) : (
