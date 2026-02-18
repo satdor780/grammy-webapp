@@ -23,3 +23,17 @@ export interface User {
   promoCode: string;
   __v: number;
 }
+
+export interface CheckUserPromoCodeResponse {
+  valid: boolean;
+  promoCode: string | null;
+
+  message?: string;
+
+  discount?: number;
+  discountType?: "percent" | "fixed";
+  name?: string;
+  expiresAt?: string | null;
+  appliesTo?: string[];
+  remainingUses?: number | null;
+}
