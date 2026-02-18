@@ -24,16 +24,45 @@ export interface User {
   __v: number;
 }
 
+// export interface  {
+//   valid: boolean;
+//   promoCode: string | null;
+
+//   message?: string;
+
+//   discount?: number;
+//   discountType?: "percent" | "fixed";
+//   name?: string;
+//   expiresAt?: string | null;
+//   appliesTo?: string[];
+//   remainingUses?: number | null;
+// }
+
 export interface CheckUserPromoCodeResponse {
+  promoCode: PromoCode;
   valid: boolean;
-  promoCode: string | null;
+  message: string;
+}
 
-  message?: string;
+export interface PromoCode {
+  _id: string;
+  name: string;
+  discount: number;
+  discountType: string;
+  code: string;
+  source: string;
+  uses: number;
+  maxUses: number;
+  appliesToProducts: AppliesToProduct[];
+  expiresAt: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
-  discount?: number;
-  discountType?: "percent" | "fixed";
-  name?: string;
-  expiresAt?: string | null;
-  appliesTo?: string[];
-  remainingUses?: number | null;
+export interface AppliesToProduct {
+  productId: string;
+  name: string;
+  slug: string;
+  _id: string;
 }
