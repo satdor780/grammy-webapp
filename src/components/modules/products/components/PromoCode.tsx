@@ -53,8 +53,8 @@ export const PromoCode = () => {
         </div>
         <div>
           <CardTitle className="text-sm uppercase tracking-wide">
-            {/* Активирован промокод */}
-            <p>{JSON.stringify(promoCode.appliesToProducts)}{JSON.stringify(isError)}</p>
+            Активирован промокод
+            {/* <p>{JSON.stringify(promoCode.appliesToProducts)}{JSON.stringify(isError)}</p> */}
           </CardTitle>
           <CardDescription className="text-xs text-white">
             {promoCode.name}
