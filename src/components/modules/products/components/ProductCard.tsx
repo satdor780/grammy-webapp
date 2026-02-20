@@ -3,6 +3,9 @@ import type { Product } from "../../../../types";
 interface ProductCardProps {
   product: Product;
   available?: number;
+  isAdmin: boolean
+  promo: AppliesToProduct | undefined
+  promoDiscount: number | undefined
 }
 
 import { useState } from "react";
@@ -11,6 +14,7 @@ import minusIcon from "/icons/minus.svg";
 import plusIcon from "/icons/plus.svg";
 import { Button } from "../../../shadcn/ui/button";
 import { useBasketStore } from "../../../../store";
+import type { AppliesToProduct } from "../../../../api";
 
 // const VITE_SERVER_URI = import.meta.env.VITE_SERVER_URI
 const VITE_SERVER_URI = "http://localhost:3000";
@@ -18,6 +22,9 @@ const VITE_SERVER_URI = "http://localhost:3000";
 export const ProductCard: FC<ProductCardProps> = ({
   product,
   available,
+  isAdmin,
+  promo,
+  promoDiscount
 }) => {
   const [isSelecting, setIsSelecting] = useState(false);
 
@@ -116,6 +123,18 @@ export const ProductCard: FC<ProductCardProps> = ({
                   </span>
                 </div>
               ))}
+              {promo && (
+                <div
+                  className="flex items-center justify-between rounded-xl border text-xs"
+                >
+                  <span className="text-neutral-900 font-medium">
+                    от 1 шт.
+                  </span>
+                  <span className="font-medium text-green-500">
+                    {promoDiscount}$
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -127,19 +146,16 @@ export const ProductCard: FC<ProductCardProps> = ({
               {available && available !== 0 ? available : "out of stock"}
             </b>
           </p>
-          {/* <p>
-            sales: <b className="text-neutral-900">132</b>
-          </p> */}
         </div>
 
-        {!isSelecting ? (
-          <Button
-            onClick={handleBuyClick}
-            disabled={!available && available === 0}
-            className="w-full bg-black text-white h-[40px] "
-          >
-            Buy Now
-          </Button>
+        {!isSelecting ? ( 
+            <Button
+              onClick={handleBuyClick}
+              disabled={isAdmin || (!available && available === 0)}
+              className="w-full bg-black text-white h-[40px] "
+            >
+              Buy Now
+            </Button>     
         ) : (
           <div className="grid grid-cols-[1fr_auto_1fr_2fr] items-center gap-3">
             <Button
