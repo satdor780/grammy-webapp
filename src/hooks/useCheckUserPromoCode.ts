@@ -13,7 +13,7 @@ import { checkUserPromoCode, type CheckUserPromoCodeResponse } from "../api";
 
 export function useCheckUserPromoCode(
   options?: Omit<
-    UseMutationOptions<CheckUserPromoCodeResponse, Error, string>,
+    UseMutationOptions<CheckUserPromoCodeResponse | null, Error, string>,
     "mutationFn"
   >,
 ) {
