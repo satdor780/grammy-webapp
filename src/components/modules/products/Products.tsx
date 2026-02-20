@@ -7,14 +7,14 @@ import { Alert, AlertDescription } from "../../shadcn/ui/alert";
 import { Button } from "../../shadcn/ui/button";
 import usdtIcon from "/icons/usdt.svg";
 import { submitOrder } from "../../../api/submitOrder";
+import { useCheckUserPromoCode } from "../../../hooks";
+import { Spinner } from "../../shadcn/ui/spinner";
 
 export const Products = () => {
   const initData = useTelegramStore((state) => state.initData);
-  // const user = useTelegramStore(state => state.user)
 
   const { mutate, data, isPending, isError, error } = useInit();
-
-  // const [ers, setErs] = useState('')
+  const { data: promoCodeData, isLoading: promoCodeIsLoading } = useCheckUserPromoCode(initData || "");
 
   useEffect(() => {
     if (initData) {
@@ -22,7 +22,6 @@ export const Products = () => {
     }
   }, [initData, mutate]);
 
-  // const products = data?.products ?? [];
   const products = data?.products ?? [];
 
   const totalPrice = useBasketStore((s) => s.getTotalPrice(products));
@@ -66,6 +65,14 @@ export const Products = () => {
     }
   };
 
+  if(promoCodeIsLoading || isPending){
+    return (
+      <div className="flex justify-center items-center w-full h-screen">
+        <Spinner className="size-8"/>
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-col items-center px-4 py-5 gap-4 pb-[100px]">
 
@@ -100,27 +107,33 @@ export const Products = () => {
       {isError && (
         <Alert variant="destructive" className="max-w-[450px]">
           <AlertDescription>
-            {error?.message || "Failed to load products"}
+            {error && error?.message || "Failed to load products"}
           </AlertDescription>
         </Alert>
       )}
-
+      
       {!isPending && !isError && products.length === 0 && (
         <p className="text-sm text-muted-foreground">Products not found</p>
       )}
 
-      <PromoCode />
+      {promoCodeData && <PromoCode promoCode={promoCodeData.promoCode} />}
+
       {!isPending &&
         !isError &&
         products.map((product) => {
           const productCount = data?.warehouse.find(
             (e) => e.productId === product.id,
           );
+          const promo = promoCodeData && promoCodeData.promoCode.appliesToProducts.filter((pr) => pr.slug === product.slug)[0]
+
           return (
             <ProductCard
               key={product.id}
               product={product}
               available={productCount?.available}
+              isAdmin={!!data?.user.isAdmin}
+              promo={promo}
+              promoDiscount={promoCodeData?.promoCode.discount}
             />
           );
         })}

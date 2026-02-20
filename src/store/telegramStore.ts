@@ -1,6 +1,7 @@
 // src/store/telegramStore.ts
 import { create } from "zustand";
 import type { WebAppInitData, WebAppUser, ThemeParams } from "telegram-web-app";
+import type { PromoCode } from "../api";
 
 type TelegramState = {
   user: WebAppUser | null;
@@ -11,9 +12,12 @@ type TelegramState = {
   isReady: boolean;
   isPremium: boolean;
   userId: number | null;
+  promocode?: PromoCode;
+
+  setPromocode: (code: PromoCode) => void;
 };
 
-export const useTelegramStore = create<TelegramState>(() => {
+export const useTelegramStore = create<TelegramState>((set) => {
   const tg = window.Telegram?.WebApp;
 
   if (!tg) {
@@ -27,6 +31,8 @@ export const useTelegramStore = create<TelegramState>(() => {
       isReady: false,
       isPremium: false,
       userId: null,
+      promocode: undefined,
+      setPromocode: (code) => set({ promocode: code }),
     };
   }
 
@@ -44,5 +50,6 @@ export const useTelegramStore = create<TelegramState>(() => {
     isReady: true,
     isPremium: !!user?.is_premium,
     userId: user?.id ?? null,
+    setPromocode: (code) => set({ promocode: code }),
   };
 });

@@ -1,8 +1,7 @@
-import { useCheckUserPromoCode } from "../../../../hooks";
-import { useTelegramStore } from "../../../../store";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../../shadcn/ui/card";
 import { Badge } from "../../../shadcn/ui/badge";
 import couponIcon from "/icons/coupon.svg";
+import type { PromoCode as PromoCodeType } from "../../../../api";
 
 function formatExpiration(expiresAt?: string | null): string | null {
   if (!expiresAt) return null;
@@ -19,19 +18,26 @@ function formatExpiration(expiresAt?: string | null): string | null {
   });
 }
 
-export const PromoCode = () => {
-  const initData = useTelegramStore((state) => state.initData);
-  const { data, isLoading, isError } = useCheckUserPromoCode(initData || "");
+export const PromoCode = ({promoCode}: {promoCode: PromoCodeType}) => {
+  // const initData = useTelegramStore((state) => state.initData);
+  // const { data, isLoading, isError } = useCheckUserPromoCode(initData || "");
 
-  if (!initData) return null;
+  // const setPromocode = useTelegramStore((state) => state.setPromocode)
 
-  if (isLoading || isError || !data || !data.valid || !data.promoCode) {
-    return null;
-  }
+  // useEffect(() => {
+  //   if(!data) return
+  //   setPromocode(data.promoCode)
+  // }, [setPromocode, data])
 
-  const promoCode = data.promoCode
+  // if (!initData) return null;
 
-  // const promoCode = response.promoCode
+  // if (isLoading || isError || !data || !data.valid || !data.promoCode) {
+  //   return null;
+  // }
+
+  // const promoCode = data.promoCode
+
+  // // const promoCode = response.promoCode
 
   if(!promoCode) return
 
@@ -43,6 +49,7 @@ export const PromoCode = () => {
       : null;
 
   const formattedExpiration = formatExpiration(promoCode.expiresAt);
+
 
   return (
     // <p>{JSON.stringify(promoCode)}{JSON.stringify(isError)}</p>
