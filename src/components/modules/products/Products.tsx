@@ -125,7 +125,8 @@ export const Products = () => {
           const productCount = data?.warehouse.find(
             (e) => e.productId === product.id,
           );
-          const promo = promoCodeData && promoCodeData.promoCode.appliesToProducts.filter((pr) => pr.slug === product.slug)[0]
+          const promo = promoCodeData?.promoCode?.appliesToProducts
+  ?.filter((pr) => pr.slug === product.slug)[0]
 
           return (
             <ProductCard
@@ -134,7 +135,7 @@ export const Products = () => {
               available={productCount?.available}
               isAdmin={!!data?.user.isAdmin}
               promo={promo}
-              promoDiscount={promoCodeData?.promoCode.discount}
+              promoCode={promoCodeData?.promoCode}
             />
           );
         })}
