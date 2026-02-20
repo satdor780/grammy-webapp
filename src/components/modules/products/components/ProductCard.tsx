@@ -131,7 +131,7 @@ export const ProductCard: FC<ProductCardProps> = ({
                     от 1 шт.
                   </span>
                   <span className="font-medium text-green-500">
-                    {promoDiscount}$
+                    {promoDiscount && promoDiscount}$
                   </span>
                 </div>
               )}
