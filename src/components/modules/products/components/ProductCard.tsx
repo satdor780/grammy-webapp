@@ -5,7 +5,7 @@ interface ProductCardProps {
   available?: number;
   isAdmin: boolean
   promo: AppliesToProduct | undefined
-  promoDiscount: number | undefined
+  promoCode: PromoCode | undefined
 }
 
 import { useState } from "react";
@@ -14,7 +14,7 @@ import minusIcon from "/icons/minus.svg";
 import plusIcon from "/icons/plus.svg";
 import { Button } from "../../../shadcn/ui/button";
 import { useBasketStore } from "../../../../store";
-import type { AppliesToProduct } from "../../../../api";
+import type { AppliesToProduct, PromoCode } from "../../../../api";
 
 // const VITE_SERVER_URI = import.meta.env.VITE_SERVER_URI
 const VITE_SERVER_URI = "http://localhost:3000";
@@ -24,7 +24,7 @@ export const ProductCard: FC<ProductCardProps> = ({
   available,
   isAdmin,
   promo,
-  promoDiscount
+  promoCode
 }) => {
   const [isSelecting, setIsSelecting] = useState(false);
 
@@ -123,6 +123,15 @@ export const ProductCard: FC<ProductCardProps> = ({
                   </span>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {promo && promoCode && (
+          <div className="space-y-2">
+            <span className="text-sm font-medium text-neutral-900">По промоду: <b>{promoCode.code.toUpperCase()}</b></span>
+
+            <div className="grid gap-2 pt-1">
               {promo && (
                 <div
                   className="flex items-center justify-between rounded-xl border text-xs"
@@ -131,7 +140,7 @@ export const ProductCard: FC<ProductCardProps> = ({
                     от 1 шт.
                   </span>
                   <span className="font-medium text-green-500">
-                    {promoDiscount && promoDiscount}$
+                    {promoCode.discount}$
                   </span>
                 </div>
               )}
