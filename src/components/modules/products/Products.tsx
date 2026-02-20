@@ -14,13 +14,14 @@ export const Products = () => {
   const initData = useTelegramStore((state) => state.initData);
 
   const { mutate, data, isPending, isError, error } = useInit();
-  const { data: promoCodeData, isLoading: promoCodeIsLoading } = useCheckUserPromoCode(initData || "");
+  const { mutate: promoMutate, data: promoCodeData, isPending: promoCodeIsLoading } = useCheckUserPromoCode();
 
   useEffect(() => {
     if (initData) {
       mutate(initData);
+      promoMutate(initData)
     }
-  }, [initData, mutate]);
+  }, [initData, mutate, promoMutate]);
 
   const products = data?.products ?? [];
 
