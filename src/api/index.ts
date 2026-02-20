@@ -4,3 +4,4 @@ export { uploadImage } from "./uploadImage";
 export * from "./types";
 export * from "./uploadImage";
 export * from "./checkUserPromoCode";
+export * from "./submitOrder";

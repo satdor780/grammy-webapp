@@ -1,25 +1,28 @@
+import { submitOrder } from "@/api";
+import { Alert, AlertDescription } from "@/components/shadcn/ui/alert";
+import { Skeleton } from "@/components/shadcn/ui/skeleton";
+import { Spinner } from "@/components/shadcn/ui/spinner";
+import { useCheckUserPromoCode, useInit } from "@/hooks";
+import { useBasketStore, useTelegramStore } from "@/store";
 import { useEffect, useState } from "react";
-import { useInit } from "../../../hooks/useInit";
-import { useBasketStore, useTelegramStore } from "../../../store";
 import { ProductCard, PromoCode } from "./components";
-import { Skeleton } from "../../shadcn/ui/skeleton";
-import { Alert, AlertDescription } from "../../shadcn/ui/alert";
-import { Button } from "../../shadcn/ui/button";
+import { Button } from "@/components/shadcn/ui/button";
 import usdtIcon from "/icons/usdt.svg";
-import { submitOrder } from "../../../api/submitOrder";
-import { useCheckUserPromoCode } from "../../../hooks";
-import { Spinner } from "../../shadcn/ui/spinner";
 
 export const Products = () => {
   const initData = useTelegramStore((state) => state.initData);
 
   const { mutate, data, isPending, isError, error } = useInit();
-  const { mutate: promoMutate, data: promoCodeData, isPending: promoCodeIsLoading } = useCheckUserPromoCode();
+  const {
+    mutate: promoMutate,
+    data: promoCodeData,
+    isPending: promoCodeIsLoading,
+  } = useCheckUserPromoCode();
 
   useEffect(() => {
     if (initData) {
       mutate(initData);
-      promoMutate(initData)
+      promoMutate(initData);
     }
   }, [initData, mutate, promoMutate]);
 
@@ -66,17 +69,16 @@ export const Products = () => {
     }
   };
 
-  if(promoCodeIsLoading || isPending){
+  if (promoCodeIsLoading || isPending) {
     return (
       <div className="flex justify-center items-center w-full h-screen">
-        <Spinner className="size-8"/>
+        <Spinner className="size-8" />
       </div>
-    )
+    );
   }
 
   return (
     <div className="flex flex-col items-center px-4 py-5 gap-4 pb-[100px]">
-
       <div className="flex items-center justify-between w-full">
         <h1 className="gothic-font text-xl uppercase">Mailzy</h1>
 
@@ -108,11 +110,11 @@ export const Products = () => {
       {isError && (
         <Alert variant="destructive" className="max-w-[450px]">
           <AlertDescription>
-            {error && error?.message || "Failed to load products"}
+            {(error && error?.message) || "Failed to load products"}
           </AlertDescription>
         </Alert>
       )}
-      
+
       {!isPending && !isError && products.length === 0 && (
         <p className="text-sm text-muted-foreground">Products not found</p>
       )}
@@ -125,8 +127,9 @@ export const Products = () => {
           const productCount = data?.warehouse.find(
             (e) => e.productId === product.id,
           );
-          const promo = promoCodeData?.promoCode?.appliesToProducts
-  ?.filter((pr) => pr.slug === product.slug)[0]
+          const promo = promoCodeData?.promoCode?.appliesToProducts?.filter(
+            (pr) => pr.slug === product.slug,
+          )[0];
 
           return (
             <ProductCard

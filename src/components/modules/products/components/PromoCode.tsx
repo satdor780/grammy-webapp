@@ -1,7 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../../shadcn/ui/card";
-import { Badge } from "../../../shadcn/ui/badge";
+import { Badge } from "@/components/shadcn/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/shadcn/ui/card";
+
 import couponIcon from "/icons/coupon.svg";
-import type { PromoCode as PromoCodeType } from "../../../../api";
+import type { PromoCode as PromoCodeType } from "@/api";
 
 function formatExpiration(expiresAt?: string | null): string | null {
   if (!expiresAt) return null;
@@ -18,7 +25,7 @@ function formatExpiration(expiresAt?: string | null): string | null {
   });
 }
 
-export const PromoCode = ({promoCode}: {promoCode: PromoCodeType}) => {
+export const PromoCode = ({ promoCode }: { promoCode: PromoCodeType }) => {
   // const initData = useTelegramStore((state) => state.initData);
   // const { data, isLoading, isError } = useCheckUserPromoCode(initData || "");
 
@@ -39,7 +46,7 @@ export const PromoCode = ({promoCode}: {promoCode: PromoCodeType}) => {
 
   // // const promoCode = response.promoCode
 
-  if(!promoCode) return
+  if (!promoCode) return;
 
   const discountLabel =
     promoCode.discount != null
@@ -49,7 +56,6 @@ export const PromoCode = ({promoCode}: {promoCode: PromoCodeType}) => {
       : null;
 
   const formattedExpiration = formatExpiration(promoCode.expiresAt);
-
 
   return (
     // <p>{JSON.stringify(promoCode)}{JSON.stringify(isError)}</p>
@@ -73,9 +79,7 @@ export const PromoCode = ({promoCode}: {promoCode: PromoCodeType}) => {
           {discountLabel && (
             <p>
               Скидка:{" "}
-              <span className="font-semibold text-white">
-                {discountLabel}
-              </span>
+              <span className="font-semibold text-white">{discountLabel}</span>
             </p>
           )}
           {formattedExpiration && (
@@ -87,13 +91,10 @@ export const PromoCode = ({promoCode}: {promoCode: PromoCodeType}) => {
             </p>
           )}
         </div>
-        <Badge
-          variant="outline"
-          className="border bg-[#040404] text-white"
-        >
+        <Badge variant="outline" className="border bg-[#040404] text-white">
           {promoCode.name}
         </Badge>
       </CardContent>
     </Card>
   );
-}
+};

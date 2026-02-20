@@ -1,20 +1,22 @@
 import type { FC } from "react";
-import type { Product } from "../../../../types";
-interface ProductCardProps {
-  product: Product;
-  available?: number;
-  isAdmin: boolean
-  promo: AppliesToProduct | undefined
-  promoCode: PromoCode | undefined
-}
 
 import { useState } from "react";
 import usdtIcon from "/icons/usdt.svg";
 import minusIcon from "/icons/minus.svg";
 import plusIcon from "/icons/plus.svg";
-import { Button } from "../../../shadcn/ui/button";
-import { useBasketStore } from "../../../../store";
-import type { AppliesToProduct, PromoCode } from "../../../../api";
+
+import type { Product } from "@/types";
+import type { AppliesToProduct, PromoCode } from "@/api";
+import { Button } from "@/components/shadcn/ui/button";
+import { useBasketStore } from "@/store";
+
+interface ProductCardProps {
+  product: Product;
+  available?: number;
+  isAdmin: boolean;
+  promo: AppliesToProduct | undefined;
+  promoCode: PromoCode | undefined;
+}
 
 // const VITE_SERVER_URI = import.meta.env.VITE_SERVER_URI
 const VITE_SERVER_URI = "http://localhost:3000";
@@ -24,7 +26,7 @@ export const ProductCard: FC<ProductCardProps> = ({
   available,
   isAdmin,
   promo,
-  promoCode
+  promoCode,
 }) => {
   const [isSelecting, setIsSelecting] = useState(false);
 
@@ -129,18 +131,16 @@ export const ProductCard: FC<ProductCardProps> = ({
 
         {promo && promoCode && (
           <div className="space-y-2">
-            <span className="text-sm font-medium text-neutral-900">По промоду: <b>{promoCode.code.toUpperCase()}</b></span>
+            <span className="text-sm font-medium text-neutral-900">
+              По промоду: <b>{promoCode.code.toUpperCase()}</b>
+            </span>
 
             <div className="grid gap-2 pt-1">
               {promo && (
-                <div
-                  className="flex items-center justify-between rounded-xl border text-xs"
-                >
-                  <span className="text-neutral-900 font-medium">
-                    от 1 шт.
-                  </span>
+                <div className="flex items-center justify-between rounded-xl border text-xs">
+                  <span className="text-neutral-900 font-medium">от 1 шт.</span>
                   <span className="font-medium text-green-500">
-                    {promoCode.discount}$
+                    -{promoCode.discount}%
                   </span>
                 </div>
               )}
@@ -157,14 +157,14 @@ export const ProductCard: FC<ProductCardProps> = ({
           </p>
         </div>
 
-        {!isSelecting ? ( 
-            <Button
-              onClick={handleBuyClick}
-              disabled={isAdmin || (!available && available === 0)}
-              className="w-full bg-black text-white h-[40px] "
-            >
-              Buy Now
-            </Button>     
+        {!isSelecting ? (
+          <Button
+            onClick={handleBuyClick}
+            disabled={isAdmin || (!available && available === 0)}
+            className="w-full bg-black text-white h-[40px] "
+          >
+            Buy Now
+          </Button>
         ) : (
           <div className="grid grid-cols-[1fr_auto_1fr_2fr] items-center gap-3">
             <Button
