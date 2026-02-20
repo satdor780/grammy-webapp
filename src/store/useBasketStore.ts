@@ -1,6 +1,7 @@
 // @grammy-webapp/src/store/basketStore.ts
 import { create } from "zustand";
 import type { Product } from "../types";
+import type { PromoCode } from "@/api";
 
 export interface BasketItem {
   productId: string;
@@ -14,29 +15,47 @@ interface BasketState {
   updateQuantity: (productId: string, quantity: number) => void;
   removeItem: (productId: string) => void;
   clearBasket: () => void;
-  getTotalPrice: (products: Product[]) => number; // ← теперь принимает массив продуктов
+  getTotalPrice: (products: Product[], promoCode?: PromoCode) => number; // ← теперь принимает массив продуктов
   getTotalItems: () => number;
   getItemQuantity: (productId: string) => number;
 }
 
-// Вспомогательная функция — найти актуальную цену для данного количества
-function getEffectivePrice(product: Product, quantity: number): number {
-  if (!product.discounts || product.discounts.length === 0) {
-    return product.basePrice;
-  }
-
-  // Ищем самую большую minQuantity, которая ≤ quantity
-  let bestPrice = product.basePrice;
+function getEffectivePrice(
+  product: Product,
+  quantity: number,
+  promoCode?: PromoCode,
+): number {
+  // 1. Quantity-based price
+  let quantityPrice = product.basePrice;
   let maxMinQty = 0;
-
-  for (const d of product.discounts) {
+  for (const d of product.discounts ?? []) {
     if (d.minQuantity <= quantity && d.minQuantity > maxMinQty) {
       maxMinQty = d.minQuantity;
-      bestPrice = d.discount; // здесь discount = новая цена
+      quantityPrice = d.discount; // d.discount stores the new per-unit price
     }
   }
 
-  return bestPrice;
+  // 2. Promo code price (only if this product is in the promo's scope)
+  let promoPrice: number | null = null;
+  if (promoCode) {
+    const appliesToThis = promoCode.appliesToProducts.some(
+      (p) => p.slug === product.slug,
+    );
+    if (appliesToThis) {
+      if (promoCode.discountType === "percent") {
+        promoPrice = product.basePrice * (1 - promoCode.discount / 100);
+      } else {
+        // fixed discount
+        promoPrice = Math.max(0, product.basePrice - promoCode.discount);
+      }
+    }
+  }
+
+  // 3. Pick the most advantageous price
+  if (promoPrice !== null) {
+    return Math.min(quantityPrice, promoPrice);
+  }
+  return quantityPrice;
 }
 
 export const useBasketStore = create<BasketState>((set, get) => ({
@@ -75,13 +94,13 @@ export const useBasketStore = create<BasketState>((set, get) => ({
 
   clearBasket: () => set({ items: [] }),
 
-  getTotalPrice: (products: Product[]) => {
+  getTotalPrice: (products: Product[], promoCode?: PromoCode) => {
     const { items } = get();
     return items.reduce((sum, item) => {
       const product = products.find((p) => p.id === item.productId);
       if (!product) return sum;
 
-      const pricePerUnit = getEffectivePrice(product, item.quantity);
+      const pricePerUnit = getEffectivePrice(product, item.quantity, promoCode);
       return sum + pricePerUnit * item.quantity;
     }, 0);
   },

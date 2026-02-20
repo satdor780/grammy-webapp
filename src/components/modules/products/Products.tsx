@@ -28,7 +28,9 @@ export const Products = () => {
 
   const products = data?.products ?? [];
 
-  const totalPrice = useBasketStore((s) => s.getTotalPrice(products));
+  const totalPrice = useBasketStore((s) =>
+    s.getTotalPrice(products, promoCodeData?.promoCode),
+  );
   const totalItems = useBasketStore((s) => s.getTotalItems());
   const basketItems = useBasketStore((s) => s.items);
   const clearBasket = useBasketStore((s) => s.clearBasket);
