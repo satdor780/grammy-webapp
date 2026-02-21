@@ -5,7 +5,7 @@ export function validatePromoCode(
   promoCodeUsed: boolean | undefined,
 ) {
   if (!promo) return false;
-  if (!promoCodeUsed) return false;
+  if (promoCodeUsed) return false;
 
   if (promo.expiresAt && promo.expiresAt < new Date()) return false;
 
