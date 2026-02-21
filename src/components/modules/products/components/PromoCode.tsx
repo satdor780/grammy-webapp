@@ -10,7 +10,7 @@ import {
 import couponIcon from "/icons/coupon.svg";
 import type { PromoCode as PromoCodeType } from "@/api";
 
-function formatExpiration(expiresAt?: string | null): string | null {
+function formatExpiration(expiresAt?: Date | null): string | null {
   if (!expiresAt) return null;
 
   const date = new Date(expiresAt);
@@ -26,25 +26,6 @@ function formatExpiration(expiresAt?: string | null): string | null {
 }
 
 export const PromoCode = ({ promoCode }: { promoCode: PromoCodeType }) => {
-  // const initData = useTelegramStore((state) => state.initData);
-  // const { data, isLoading, isError } = useCheckUserPromoCode(initData || "");
-
-  // const setPromocode = useTelegramStore((state) => state.setPromocode)
-
-  // useEffect(() => {
-  //   if(!data) return
-  //   setPromocode(data.promoCode)
-  // }, [setPromocode, data])
-
-  // if (!initData) return null;
-
-  // if (isLoading || isError || !data || !data.valid || !data.promoCode) {
-  //   return null;
-  // }
-
-  // const promoCode = data.promoCode
-
-  // // const promoCode = response.promoCode
 
   if (!promoCode) return;
 

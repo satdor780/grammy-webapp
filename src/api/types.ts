@@ -21,6 +21,7 @@ export interface User {
   updatedAt: string;
   isAdmin: boolean;
   promoCode: string;
+  promoCodeUsed: boolean;
   __v: number;
 }
 
@@ -54,7 +55,7 @@ export interface PromoCode {
   uses: number;
   maxUses: number;
   appliesToProducts: AppliesToProduct[];
-  expiresAt: string;
+  expiresAt: Date;
   createdAt: string;
   updatedAt: string;
   __v: number;

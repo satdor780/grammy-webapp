@@ -1,13 +1,14 @@
-import { submitOrder } from "@/api";
+import { submitOrder, type PromoCode as PromoCodeType } from "@/api";
 import { Alert, AlertDescription } from "@/components/shadcn/ui/alert";
 import { Skeleton } from "@/components/shadcn/ui/skeleton";
 import { Spinner } from "@/components/shadcn/ui/spinner";
 import { useCheckUserPromoCode, useInit } from "@/hooks";
 import { useBasketStore, useTelegramStore } from "@/store";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ProductCard, PromoCode } from "./components";
 import { Button } from "@/components/shadcn/ui/button";
 import usdtIcon from "/icons/usdt.svg";
+import { validatePromoCode } from "@/utils/validatePromoCode";
 
 export const Products = () => {
   const initData = useTelegramStore((state) => state.initData);
@@ -26,10 +27,16 @@ export const Products = () => {
     }
   }, [initData, mutate, promoMutate]);
 
+  const promoCode = useMemo<PromoCodeType | undefined>(() => {
+    if (!promoCodeData || !data) return undefined;
+    const isValid = validatePromoCode(promoCodeData.promoCode, data.user.promoCodeUsed);
+    return isValid ? promoCodeData.promoCode : undefined;
+  }, [promoCodeData, data]);
+
   const products = data?.products ?? [];
 
   const totalPrice = useBasketStore((s) =>
-    s.getTotalPrice(products, promoCodeData?.promoCode),
+    s.getTotalPrice(products, promoCode),
   );
   const totalItems = useBasketStore((s) => s.getTotalItems());
   const basketItems = useBasketStore((s) => s.items);
@@ -91,15 +98,23 @@ export const Products = () => {
 
           <div className="flex items-center gap-1 text-sm text-white leading-none">
             <img src={usdtIcon} alt="USDT" className="w-[18px] h-[18px]" />
-            <b>
-              {data?.userBalance
-                ? data.userBalance.toFixed(2)
-                : "Не удалось получить баланс"}
-              $
-            </b>
+            <b>{data?.userBalance ? data.userBalance.toFixed(2) : 0}$</b>
           </div>
         </div>
       </div>
+
+      {isError && (
+        <Alert variant="destructive" className="max-w-[450px]">
+          <AlertDescription>
+            {error?.message ?? "Failed to load products"}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {!isPending && !isError && products.length === 0 && (
+        <p className="text-sm text-muted-foreground">Products not found</p>
+      )}
+
       {isPending && (
         <div className="w-full max-w-[450px] space-y-3">
           <Skeleton className="h-[260px] w-full rounded-xl" />
@@ -109,19 +124,8 @@ export const Products = () => {
         </div>
       )}
 
-      {isError && (
-        <Alert variant="destructive" className="max-w-[450px]">
-          <AlertDescription>
-            {(error && error?.message) || "Failed to load products"}
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {!isPending && !isError && products.length === 0 && (
-        <p className="text-sm text-muted-foreground">Products not found</p>
-      )}
-
-      {promoCodeData && <PromoCode promoCode={promoCodeData.promoCode} />}
+      {/* Показываем промокод только если он прошёл валидацию */}
+      {promoCode && <PromoCode promoCode={promoCode} />}
 
       {!isPending &&
         !isError &&
@@ -129,9 +133,10 @@ export const Products = () => {
           const productCount = data?.warehouse.find(
             (e) => e.productId === product.id,
           );
-          const promo = promoCodeData?.promoCode?.appliesToProducts?.filter(
-            (pr) => pr.slug === product.slug,
-          )[0];
+          const promo = promoCode?.appliesToProducts?.find(
+            (pr: PromoCodeType["appliesToProducts"][number]) =>
+              pr.slug === product.slug,
+          );
 
           return (
             <ProductCard
@@ -140,7 +145,7 @@ export const Products = () => {
               available={productCount?.available}
               isAdmin={!!data?.user.isAdmin}
               promo={promo}
-              promoCode={promoCodeData?.promoCode}
+              promoCode={promoCode}
             />
           );
         })}
@@ -160,6 +165,7 @@ export const Products = () => {
           </Button>
         </div>
       )}
+
       {data?.user.isAdmin && (
         <div className="fixed w-full px-5 py-0 bottom-10 left-0 right-0">
           <Button
