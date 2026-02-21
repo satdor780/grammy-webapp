@@ -99,6 +99,7 @@ export const Products = () => {
           <div className="flex items-center gap-1 text-sm text-white leading-none">
             <img src={usdtIcon} alt="USDT" className="w-[18px] h-[18px]" />
             <b>{data?.userBalance ? data.userBalance.toFixed(2) : 0}$</b>
+            <span>{data?.user.promoCodeUsed ? 'true': 'false'}</span>
           </div>
         </div>
       </div>
