@@ -18,8 +18,7 @@ interface ProductCardProps {
   promoCode: PromoCode | undefined;
 }
 
-// const VITE_SERVER_URI = import.meta.env.VITE_SERVER_URI
-const VITE_SERVER_URI = "http://localhost:3000";
+const VITE_SERVER_URI = import.meta.env.VITE_SERVER_URI!;
 
 export const ProductCard: FC<ProductCardProps> = ({
   product,
