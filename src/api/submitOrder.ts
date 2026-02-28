@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_SERVER_URI ?? "http://localhost:3000";
+const API_BASE = import.meta.env.VITE_SERVER_URI!;
 
 export interface OrderItem {
   productId: string;

@@ -1,11 +1,13 @@
 import type { CheckUserPromoCodeResponse } from "./types.ts";
 
+const API_BASE = import.meta.env.VITE_SERVER_URI!;
+
 export async function checkUserPromoCode(
   initData: string,
 ): Promise<CheckUserPromoCodeResponse | null> {
   // ← null если нет промокода
   const res = await fetch(
-    `http://localhost:3000/api/checkuserpromocode?initData=${encodeURIComponent(initData)}`,
+    `${API_BASE}/api/checkuserpromocode?initData=${encodeURIComponent(initData)}`,
     { method: "GET" },
   );
 
